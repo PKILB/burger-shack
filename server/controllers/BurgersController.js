@@ -1,5 +1,6 @@
 import { burgersService } from "../services/BurgersService.js";
 import BaseController from "../utils/BaseController.js";
+import { logger } from "../utils/Logger.js";
 
 export class BurgersController extends BaseController {
     constructor() {
@@ -7,6 +8,7 @@ export class BurgersController extends BaseController {
 
         this.router
         .get('/burgers', this.getBurgers)
+        .get('/burgers/:burgerId', this.getBurgerById)
     }
 
 
@@ -23,6 +25,29 @@ export class BurgersController extends BaseController {
 
 
     getBurgerById(req, res, next) {
-        
+        try {
+            let burgerId = req.params.burgerId
+            logger.log(burgerId)
+
+            const burger = burgersService.getBurgerById(burgerId)
+            
+            res.send(burger)
+
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    createBurger(req, res, next) {
+        try {
+            let rawBurgerData = req.body
+
+            let newBurger = burgersService.createBurger(rawBurgerData)
+
+            res.send(newBurger)
+
+        } catch (error) {
+            next(error)
+        }
     }
 }
