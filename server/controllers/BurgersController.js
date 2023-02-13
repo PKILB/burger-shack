@@ -9,6 +9,7 @@ export class BurgersController extends BaseController {
         this.router
         .get('/burgers', this.getBurgers)
         .get('/burgers/:burgerId', this.getBurgerById)
+        .post('/burgers', this.createBurger)
     }
 
 
